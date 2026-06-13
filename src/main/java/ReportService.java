@@ -1,9 +1,4 @@
 import java.util.Collection;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import java.util.Collection;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ReportService {
