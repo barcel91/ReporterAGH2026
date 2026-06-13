@@ -108,9 +108,4 @@ public class XlsxReader {
     private String formatError(String file, String project, Row row, String col, String errorType) {
         return "%s file has %s %s at row %s in project %s.".formatted(file, errorType, col, row.getRowNum(), project);
     }
-
-    public static void main(String[] args) {
-        Collection<Task> tasks = new XlsxReader().readData("src/main/resources");
-        tasks.forEach(System.out::println);
-    }
 }
