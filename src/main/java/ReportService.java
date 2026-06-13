@@ -2,21 +2,44 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class ReportService {
 
-    public Map<String, Double> hoursByEmployee(Collection<Task> tasks) {
+    public Collection<ReportData> hoursByEmployee(Collection<Task> tasks) {
         return tasks.stream()
                 .collect(Collectors.groupingBy(
                         Task::getUser,
                         Collectors.summingDouble(Task::getDuration)
-                ));
+                ))
+                .entrySet()
+                .stream()
+                .map(entry -> {
+                    ReportData data = new ReportData();
+                    data.setUser(entry.getKey());
+                    data.setDuration(entry.getValue());
+                    return data;
+                })
+                .collect(Collectors.toList());
     }
 
-    public Map<String, Double> hoursByProject(Collection<Task> tasks) {
+    public Collection<ReportData> hoursByProject(Collection<Task> tasks) {
         return tasks.stream()
                 .collect(Collectors.groupingBy(
                         Task::getProject,
                         Collectors.summingDouble(Task::getDuration)
-                ));
+                ))
+                .entrySet()
+                .stream()
+                .map(entry -> {
+                    ReportData data = new ReportData();
+                    data.setTask(entry.getKey());
+                    data.setDuration(entry.getValue());
+                    return data;
+                })
+                .collect(Collectors.toList());
     }
 }
+
