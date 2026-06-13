@@ -47,4 +47,15 @@ public class Task {
     public void setDuration(double duration) {
         this.duration = duration;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "user='" + user + '\'' +
+                ", project='" + project + '\'' +
+                ", data=" + data +
+                ", task='" + task + '\'' +
+                ", duration=" + duration +
+                '}';
+    }
 }
