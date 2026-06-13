@@ -1,9 +1,4 @@
 import java.util.Collection;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import java.util.Collection;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ReportService {
@@ -35,7 +30,7 @@ public class ReportService {
                 .stream()
                 .map(entry -> {
                     ReportData data = new ReportData();
-                    data.setTask(entry.getKey());
+                    data.setProject(entry.getKey());
                     data.setDuration(entry.getValue());
                     return data;
                 })
