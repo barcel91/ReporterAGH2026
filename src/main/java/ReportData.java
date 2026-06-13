@@ -3,6 +3,15 @@ public class ReportData {
     private Double duration;
     private String task;
     private double percentage;
+    private String project;
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
+    }
 
     public String getUser() {
         return user;
