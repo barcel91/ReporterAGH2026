@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 
 public class Task {
+
     private String user;
     private String project;
     private LocalDate data;
