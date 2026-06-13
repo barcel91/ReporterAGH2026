@@ -24,11 +24,23 @@ Wymagania funkcjonalne do Raportu 1:
 	- nazwa pracownika
 	- łączne ilość godzin zapisanych dla pracownika
 
+__________________________________________
+|   Nazwa Pracownika  |   Czas [godziny]  |
+|---------------------|-------------------|
+|   Kowalski_Jan      |       55          |
+|   Nowak_Piotr       |       78          |
+
+
 
 Wymagania funkcjonalne do Raportu 2:
 1. Tabela zawiera dwie kolumny
 	- nazwa projektu
 	- łączne ilość godzin zalogowanych do danego raportu
 
+___________________________________________
+|   Nazwa Projektu    |   Czas [godziny]  |
+|---------------------|-------------------|
+|   Projekt1          |       389         |
+|   Projekt2          |       257         |
 
 
