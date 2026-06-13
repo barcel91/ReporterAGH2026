@@ -62,6 +62,18 @@ class ReportServiceTest {
         assertEquals(3.0, hoursByProject.get("ProjectB"));
     }
 
+    @Test
+    void shouldReturnEmptyResultForHoursByEmployee() {
+        Collection<ReportData> result = reportService.hoursByEmployee(List.of());
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    void shouldReturnEmptyResultForHoursByProject() {
+        Collection<ReportData> result = reportService.hoursByProject(List.of());
+        assertEquals(0, result.size());
+    }
+
     private Task createTask(String user, String project, double duration) {
         Task task = new Task();
         task.setUser(user);
