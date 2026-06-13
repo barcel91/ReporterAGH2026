@@ -17,8 +17,8 @@ Wymagania funkcjonalne do programu:
 7. Kod programu powinien być napisany w języku angielskim
 8. Raporty uruchamia się przy pomocy komend w konsoli
 9. Aplikacja jest uruchamiana dla konkretnego raportu
-    - komenda: "java -jar app.java -r1" odpowiada za raport z czasem pracy dla każdego pracownika
-    - komenda: "java -jar app.java -r2" odpowiada za raport z czasem zalogowanym do danego projektu
+    - komenda: "java -jar App.java -r1" odpowiada za raport z czasem pracy dla każdego pracownika
+    - komenda: "java -jar App.java -r2" odpowiada za raport z czasem zalogowanym do danego projektu
 
 
 Wymagania funkcjonalne do Raportu 1:
