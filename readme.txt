@@ -16,7 +16,9 @@ Wymagania funkcjonalne do programu:
 6. Do każdej klasy powinny zostać stworzone testy automatyczne
 7. Kod programu powinien być napisany w języku angielskim
 8. Raporty uruchamia się przy pomocy komend w konsoli
-9. Aplikacja jest uruchamiana dla konkretnego raportu 
+9. Aplikacja jest uruchamiana dla konkretnego raportu
+    - komenda: "java -jar app.java -r1" odpowiada za raport z czasem pracy dla każdego pracownika
+    - komenda: "java -jar app.java -r2" odpowiada za raport z czasem zalogowanym do danego projektu
 
 
 Wymagania funkcjonalne do Raportu 1:
@@ -24,6 +26,7 @@ Wymagania funkcjonalne do Raportu 1:
 	- nazwa pracownika
 	- łączne ilość godzin zapisanych dla pracownika
 
+Zestawienie czasu pracy pracowników za okres: 2026-01-01 - 2026-06-30
 __________________________________________
 |   Nazwa Pracownika  |   Czas [godziny]  |
 |---------------------|-------------------|
@@ -37,6 +40,8 @@ Wymagania funkcjonalne do Raportu 2:
 	- nazwa projektu
 	- łączne ilość godzin zalogowanych do danego raportu
 
+
+Zestawienie czasu pracy pracowników za okres: 2026-01-01 - 2026-06-30
 ___________________________________________
 |   Nazwa Projektu    |   Czas [godziny]  |
 |---------------------|-------------------|
