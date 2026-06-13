@@ -30,7 +30,7 @@ public class ReportService {
                 .stream()
                 .map(entry -> {
                     ReportData data = new ReportData();
-                    data.setTask(entry.getKey());
+                    data.setProject(entry.getKey());
                     data.setDuration(entry.getValue());
                     return data;
                 })

@@ -54,7 +54,7 @@ class ReportServiceTest {
 
         Map<String, Double> hoursByProject = result.stream()
                 .collect(Collectors.toMap(
-                        ReportData::getTask,
+                        ReportData::getProject,
                         ReportData::getDuration
                 ));
 
