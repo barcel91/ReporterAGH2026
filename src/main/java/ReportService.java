@@ -2,7 +2,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ReportCalculator  {
+public class ReportService {
 
     public Map<String, Double> hoursByEmployee(Collection<Task> tasks) {
         return tasks.stream()
