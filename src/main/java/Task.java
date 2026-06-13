@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 
 public class Task {
-    
+
     private String user;
     private String project;
     private LocalDate data;
@@ -46,5 +46,16 @@ public class Task {
 
     public void setDuration(double duration) {
         this.duration = duration;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "user='" + user + '\'' +
+                ", project='" + project + '\'' +
+                ", data=" + data +
+                ", task='" + task + '\'' +
+                ", duration=" + duration +
+                '}';
     }
 }
