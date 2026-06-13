@@ -21,28 +21,26 @@ import java.util.stream.Stream;
 // at least one cell empty - info to user
 
 public class XlsxReader {
-    private final DataFormatter DATA_FORMATTER = new DataFormatter();
-    private final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("d/MM/yyyy");
-    private final String excelDate = "Data";
-    private final String excelTask = "Zadanie";
-    private final String excelDuration = "Czas";
-    private final String emptyError = "empty";
-    private final String invalidError = "invalid";
+    private static final  DataFormatter DATA_FORMATTER = new DataFormatter();
+    private static final  DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("d/MM/yyyy");
+    private static final  String DATE = "Data";
+    private static final  String TASK = "Zadanie";
+    private static final  String DURATION = "Czas";
+    private static final  String EMPTY_ERROR = "empty";
+    private static final  String INVALID_ERROR = "invalid";
 
     public Collection<Task> readData(String s) {
         Path path = Paths.get(s);
-        List<Task> tasks;
+        List<Task> tasks = new ArrayList<>();
+        List<String> errors = new ArrayList<>();
 
         try (Stream<Path> walk = Files.walk(path)) {
             List<Path> list = walk.filter(f -> f.getFileName().toString().endsWith(".xlsx")).toList();
-            tasks = new ArrayList<>();
 
             for (Path location : list) {
                 String user = location.getFileName().toString().replace(".xlsx", "");
                 FileInputStream file = new FileInputStream(location.toString());
                 Workbook workbook = new XSSFWorkbook(file);
-
-                List<String> errors = new ArrayList<>();
 
                 for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
                     Sheet sheet = workbook.getSheetAt(i);
@@ -50,26 +48,26 @@ public class XlsxReader {
 
                     for (int j = 1; j < sheet.getPhysicalNumberOfRows(); j++) {
                         Row row = sheet.getRow(j);
-                        Cell dateCell = row.getCell(0);
+                        Cell date = row.getCell(0);
                         Cell taskCell = row.getCell(1);
                         Cell durationCell = row.getCell(2);
 
-                        if (dateCell == null && taskCell == null && durationCell == null) {
+                        if (date == null && taskCell == null && durationCell == null) {
                             continue;
                         }
 
-                        if (dateCell == null) {
-                            errors.add(formatError(user, project, row, excelDate, emptyError));
+                        if (date == null) {
+                            errors.add(formatError(user, project, row, DATE, EMPTY_ERROR));
                             continue;
                         }
 
                         if (taskCell == null) {
-                            errors.add(formatError(user, project, row, excelTask, emptyError));
+                            errors.add(formatError(user, project, row, TASK, EMPTY_ERROR));
                             continue;
                         }
 
                         if (durationCell == null) {
-                            errors.add(formatError(user, project, row, excelDuration, emptyError));
+                            errors.add(formatError(user, project, row, DURATION, EMPTY_ERROR));
                             continue;
                         }
 
@@ -78,7 +76,7 @@ public class XlsxReader {
                         task.setUser(user);
                         task.setTask(getCellValue(taskCell));
                         try {
-                            task.setData(LocalDate.parse(getCellValue(dateCell), DATE_FORMATTER));
+                            task.setData(LocalDate.parse(getCellValue(date), DATE_FORMATTER));
                         } catch (DateTimeException e) {
                             throw new RuntimeException();
                         }
@@ -98,6 +96,7 @@ public class XlsxReader {
             throw new RuntimeException(e);
         }
 
+        errors.forEach(System.err::println);
         return tasks;
     }
 
@@ -107,10 +106,5 @@ public class XlsxReader {
 
     private String formatError(String file, String project, Row row, String col, String errorType) {
         return "%s file has %s %s at row %s in project %s.".formatted(file, errorType, col, row.getRowNum(), project);
-    }
-
-    public static void main(String[] args) {
-        Collection<Task> tasks = new XlsxReader().readData("src/main/resources");
-        tasks.forEach(System.out::println);
     }
 }
