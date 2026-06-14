@@ -39,6 +39,7 @@ public class ResultPrinter {
 
 
     public String cutText(int maxLength, String text){
+        if (text == null) return text;
         if (text.length() > maxLength){
             return (text.substring(0, maxLength-3)+"...");
         }
