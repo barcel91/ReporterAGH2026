@@ -117,6 +117,11 @@ public class XlsxReader {
                     continue;
                 }
 
+                if(duration > 24){
+                    putError(dateFile, formatError(fileName, project, row, DURATION, "too large"));
+                    continue;
+                }
+
                 task.setDuration(duration);
 
                 tasks.add(task);
