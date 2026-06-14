@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 // folder might not include files
 
@@ -30,7 +31,7 @@ public class XlsxReader {
     private static final String INVALID_ERROR = "invalid";
 
     private final ArrayList<Task> tasks = new ArrayList<>();
-    private final Map<String, List<String>> errorsTree = new TreeMap<>();
+    private final TreeMap<String, ArrayList<String>> errorsTree = new TreeMap<>();
     private Path src;
 
     public ArrayList<Task> readData(String s) throws IOException {
@@ -39,18 +40,22 @@ public class XlsxReader {
         long l = System.currentTimeMillis();
 
         try (var walk = Files.walk(src)) {
-            walk.parallel().filter(Files::isRegularFile).forEach(this::addTask);
+            walk.filter(Files::isRegularFile).forEach(this::addTask);
         }
-        errorsTree.values().forEach(v -> v.forEach(System.err::println));
+        errorsTree.forEach((k,v) -> {
+            System.err.println(k);
+            v.forEach(System.err::println);
+        });
         System.out.println(System.currentTimeMillis() - l);
 
         return tasks;
     }
 
     private void addTask(Path path) {
-        String relativePath = src.getParent().relativize(path).toString();
-        if (!path.toString().endsWith(".xlsx")) {
-            putError(relativePath, "Omitting %s file. Only .xslx files will be processed".formatted(relativePath));
+        String dateFile = src.relativize(path).getParent().toString();
+        String fileName = path.getFileName().toString();
+        if (!fileName.endsWith(".xlsx")) {
+            putError(dateFile, "Omitting %s file. Only .xslx files will be processed".formatted(fileName));
             return;
         }
 
@@ -63,16 +68,14 @@ public class XlsxReader {
             throw new RuntimeException(e);
         }
 
-        String fileName = path.getFileName().toString();
         String user = fileName.replaceAll("_", " ").replace(".xlsx", "");
-
         for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
             Sheet sheet = workbook.getSheetAt(i);
             String project = sheet.getSheetName();
 
             for (int j = 1; j < sheet.getPhysicalNumberOfRows(); j++) {
                 Row row = sheet.getRow(j);
-                List<String> localErrors = new ArrayList<>();
+                ArrayList<String> localErrors = new ArrayList<>();
                 if (row == null) {
                     continue;
                 }
@@ -97,7 +100,7 @@ public class XlsxReader {
                 }
 
                 if (!localErrors.isEmpty()) {
-                    putError(relativePath, localErrors);
+                    putError(dateFile, localErrors);
                     continue;
                 }
 
@@ -108,14 +111,14 @@ public class XlsxReader {
                 try {
                     task.setData(LocalDate.parse(getCellValue(dateCell), DATE_FORMATTER));
                 } catch (DateTimeException e) {
-                    putError(relativePath, formatError(relativePath, project, row, DATE, INVALID_ERROR));
+                    putError(dateFile, formatError(dateFile, project, row, DATE, INVALID_ERROR));
                     continue;
                 }
 
                 try {
                     task.setDuration(Double.parseDouble(getCellValue(durationCell)));
                 } catch (NumberFormatException e) {
-                    putError(relativePath, formatError(relativePath, project, row, DURATION, INVALID_ERROR));
+                    putError(dateFile, formatError(dateFile, project, row, DURATION, INVALID_ERROR));
                     continue;
                 }
                 tasks.add(task);
@@ -132,10 +135,10 @@ public class XlsxReader {
     }
 
     private void putError(String key, String val) {
-        putError(key, List.of(val));
+        putError(key, new ArrayList<>(List.of(val)));
     }
 
-    private void putError(String key, List<String> val) {
+    private void putError(String key, ArrayList<String> val) {
         errorsTree.merge(key, val, (oldVal, newVal) -> {
                     oldVal.addAll(newVal);
                     return oldVal;
