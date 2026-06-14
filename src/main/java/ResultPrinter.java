@@ -48,6 +48,9 @@ public class ResultPrinter {
 
     //User + Duration
     public String getReport_1(){
+        if (reportData == null || reportData.isEmpty())
+            return "Zestawienie czasu pracy pracowników - Brak Danych !";
+
         String reportName = "Zestawienie czasu pracy pracowników za okres: ";
         String fromDate = reportData.getFirst().getFromDate();
         String toDate = reportData.getFirst().getToDate();
@@ -69,6 +72,9 @@ public class ResultPrinter {
 
     //Project + Duration
     public String getReport_2(){
+        if (reportData == null || reportData.isEmpty())
+            return "Zestawienie czasu pracy w projektach - Brak Danych !";
+
         String reportName = "Zestawienie czasu pracy w projektach za okres:";
         String fromDate = reportData.getFirst().getFromDate();
         String toDate = reportData.getFirst().getToDate();
@@ -90,6 +96,9 @@ public class ResultPrinter {
 
     //Project + Duration + Percent
     public String getReport_3(){
+        if (reportData == null || reportData.isEmpty())
+            return "Zestawienie projektów dla pracownika - Brak Danych !";
+
         String reportName = "Zestawienie projektów dla pracownika za okres: ";
         String fromDate = reportData.getFirst().getFromDate();
         String toDate = reportData.getFirst().getToDate();
@@ -112,6 +121,9 @@ public class ResultPrinter {
 
     //Task + Duration - zadania w prpjekcie za okres
     public String getReport_4(){
+        if (reportData == null || reportData.isEmpty())
+            return "Zestawienie zadań w projekcie - Brak Danych !";
+
         String reportName = "Zestawienie zadań w projekcie za okres: ";
         String fromDate = reportData.getFirst().getFromDate();
         String toDate = reportData.getFirst().getToDate();
@@ -133,6 +145,9 @@ public class ResultPrinter {
 
     //Task + Duration - zadania dla pracownika
     public String getReport_5(){
+        if (reportData == null || reportData.isEmpty())
+            return "Zestawienie zadań dla pracownika - Brak Danych !";
+
         String reportName = "Zestawienie zadań dla pracownika za okres: ";
         String fromDate = reportData.getFirst().getFromDate();
         String toDate = reportData.getFirst().getToDate();
