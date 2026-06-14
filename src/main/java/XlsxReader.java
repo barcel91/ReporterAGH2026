@@ -2,7 +2,6 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,9 +9,7 @@ import java.nio.file.Paths;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 // folder might not include files
 
@@ -31,6 +28,7 @@ public class XlsxReader {
 
     private final List<Task> tasks = new ArrayList<>();
     private final List<String> errors = new ArrayList<>();
+    private final Map<String, List<String>> errorsTree = new TreeMap<>();
     private Path src;
 
     public Collection<Task> readData(String s) throws IOException {
@@ -41,16 +39,16 @@ public class XlsxReader {
         try (var walk = Files.walk(src)) {
             walk.parallel().filter(Files::isRegularFile).forEach(this::addTask);
         }
-        errors.forEach(System.err::println);
-        System.out.println(System.currentTimeMillis()-l);
+        errorsTree.values().forEach(v -> v.forEach(System.err::println));
+        System.out.println(System.currentTimeMillis() - l);
 
         return tasks;
     }
 
-    private void addTask(Path path)  {
-        Path relativePath = src.relativize(path);
+    private void addTask(Path path) {
+        String relativePath = src.relativize(path).toString();
         if (!path.toString().endsWith(".xlsx")) {
-            errors.add("Not proceeding with %s file. Files in format other than .xslx are omitted".formatted(relativePath));
+            putError(relativePath, "Omitting %s file. Files in format other than .xslx will not be processed".formatted(relativePath));
             return;
         }
 
@@ -73,6 +71,7 @@ public class XlsxReader {
 
             for (int j = 1; j < sheet.getPhysicalNumberOfRows(); j++) {
                 Row row = sheet.getRow(j);
+                List<String> localErrors = new ArrayList<>();
                 if (row == null) {
                     continue;
                 }
@@ -85,17 +84,20 @@ public class XlsxReader {
                 }
 
                 if (isEmpty(dateCell)) {
-                    errors.add(formatError(relativePath, project, row, DATE, EMPTY_ERROR));
-                    continue;
+                    localErrors.add(formatError(relativePath, project, row, DATE, EMPTY_ERROR));
                 }
 
                 if (isEmpty(taskCell)) {
-                    errors.add(formatError(relativePath, project, row, TASK, EMPTY_ERROR));
-                    continue;
+                    localErrors.add(formatError(relativePath, project, row, TASK, EMPTY_ERROR));
                 }
 
                 if (isEmpty(durationCell)) {
-                    errors.add(formatError(relativePath, project, row, DURATION, EMPTY_ERROR));
+                    localErrors.add(formatError(relativePath, project, row, DURATION, EMPTY_ERROR));
+                }
+
+                if (!localErrors.isEmpty()) {
+                    errors.addAll(localErrors);
+                    putError(relativePath, localErrors);
                     continue;
                 }
 
@@ -106,17 +108,16 @@ public class XlsxReader {
                 try {
                     task.setData(LocalDate.parse(getCellValue(dateCell), DATE_FORMATTER));
                 } catch (DateTimeException e) {
-                    errors.add(formatError(relativePath, project, row, DATE, INVALID_ERROR));
+                    putError(relativePath, formatError(relativePath, project, row, DATE, INVALID_ERROR));
                     continue;
                 }
 
                 try {
                     task.setDuration(Double.parseDouble(getCellValue(durationCell)));
                 } catch (NumberFormatException e) {
-                    errors.add(formatError(relativePath, project, row, DURATION, INVALID_ERROR));
+                    putError(relativePath, formatError(relativePath, project, row, DURATION, INVALID_ERROR));
                     continue;
                 }
-
                 tasks.add(task);
             }
         }
@@ -130,8 +131,20 @@ public class XlsxReader {
         return DATA_FORMATTER.formatCellValue(cell);
     }
 
-    private static String formatError(Path path, String project, Row row, String col, String errorType) {
-        return "%s file has %s %s at row %s in project %s.".formatted(path.toString(), errorType, col, row.getRowNum(), project);
+    private void putError(String key, String val) {
+        putError(key, List.of(val));
+    }
+
+    private void putError(String key, List<String> val) {
+        errorsTree.merge(key, val, (oldVal, newVal) -> {
+                    oldVal.addAll(newVal);
+                    return oldVal;
+                }
+        );
+    }
+
+    private static String formatError(String path, String project, Row row, String col, String errorType) {
+        return "%s file has %s %s at row %s in project %s.".formatted(path, errorType, col, row.getRowNum(), project);
     }
 
     public static void main(String[] args) throws IOException {
