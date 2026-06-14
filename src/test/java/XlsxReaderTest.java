@@ -16,6 +16,7 @@ class XlsxReaderTest {
     private final String emptyCells = pathToString("emptyCells");
     private final String nonStandardFiles = pathToString("nonStandardFiles");
     private final String invalidFolderStructure = pathToString("invalidFolderStructure");
+    private final String invalidFormat = pathToString("invalidFormat");
     private final String invalidCells = pathToString("invalidCells");
 
     private String pathToString(String path) {
@@ -53,6 +54,11 @@ class XlsxReaderTest {
     }
 
     @Test
+    public void shouldThrowExceptionForNonExistingFolder(){
+        assertThrows(IOException.class, ()->xlsxReader.readData("this/folder/does/not/exist"));
+    }
+
+    @Test
     public void shouldReturnTaskForStandardFiles() throws IOException {
         assertTasksAreNotEmpty(standardFiles, 10);
     }
@@ -75,6 +81,11 @@ class XlsxReaderTest {
     @Test
     public void shouldNotReturnTasksForEmptyCells() throws IOException {
         assertTasksAreEmpty(emptyCells);
+    }
+
+    @Test
+    public void shouldNotReturnTasksForInvalidFormat() throws IOException {
+        assertTasksAreEmpty(invalidFormat);
     }
 
     @Test

@@ -2,6 +2,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,11 +34,16 @@ public class XlsxReader {
                     .forEach(this::addTask);
         }
 
-        errorsTree.forEach((k, v) -> {
-            System.err.println(k);
-            v.forEach(System.err::println);
-        });
-
+        if(!errorsTree.isEmpty()){
+            try (FileWriter fileWriter = new FileWriter("error-log.txt", false)){
+                for (String key : errorsTree.keySet()) {
+                    fileWriter.append(key).append("\n");
+                    for (String value : errorsTree.get(key)) {
+                        fileWriter.append("\t").append(value).append("\n");
+                    }
+                }
+            }
+        }
         return tasks;
     }
 
@@ -123,7 +129,6 @@ public class XlsxReader {
                 }
 
                 task.setDuration(duration);
-
                 tasks.add(task);
             }
         }
