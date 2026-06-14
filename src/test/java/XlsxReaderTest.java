@@ -74,7 +74,7 @@ class XlsxReaderTest {
 
     @Test
     public void shouldNotReturnTasksForEmptyFolder() throws IOException {
-//        assertTasksAreEmpty(emptyFolder);
+        assertTasksAreEmpty(emptyFolder);
     }
 
     @Test

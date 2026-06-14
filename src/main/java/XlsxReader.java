@@ -35,7 +35,8 @@ public class XlsxReader {
         }
 
         if(!errorsTree.isEmpty()){
-            try (FileWriter fileWriter = new FileWriter("error-log.txt", false)){
+            Path path = Path.of("error-log.txt");
+            try (FileWriter fileWriter = new FileWriter(path.toFile(), false)){
                 for (String key : errorsTree.keySet()) {
                     fileWriter.append(key).append("\n");
                     for (String value : errorsTree.get(key)) {
@@ -43,6 +44,7 @@ public class XlsxReader {
                     }
                 }
             }
+            System.out.println("Error log generated in: " + path.toAbsolutePath());
         }
         return tasks;
     }
