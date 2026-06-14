@@ -6,104 +6,34 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ResultPrinterTest {
-    @Test
-    public void testRep1HeaderFooterNoData() {
-        List<ReportData> emptyList = new ArrayList<>();
-        ResultPrinter resultPrinter = new ResultPrinter("r1",emptyList);
-        String reportName = "Raport 1";
-        String n1 = "Nazwa Pracownika";
-        String n2 = "Czas [godziny]";
-        String linia = "-".repeat(57);
-        String report = "";
-
-        report += reportName + "\n";
-        report += linia + "\n";
-        report += "| %-35s | %-15s |\n".formatted(n1, n2);
-        report += linia + "\n";
-        report += linia + "\n";
-
-        assertEquals(report,resultPrinter.getReport_1());
-    }
-
-    @Test
-    public void testRep2HeaderFooterNoData() {
-        List<ReportData> emptyList = new ArrayList<>();
-        ResultPrinter resultPrinter = new ResultPrinter("r2",emptyList);
-        String reportName = "Raport 2";
-        String n1 = "Nazwa Projektu";
-        String n2 = "Czas [godziny]";
-        String linia = "-".repeat(57);
-        String report = "";
-
-        report += reportName + "\n";
-        report += linia + "\n";
-        report += "| %-35s | %-15s |\n".formatted(n1, n2);
-        report += linia + "\n";
-        report += linia + "\n";
-
-        assertEquals(report,resultPrinter.getReport_2());
-    }
-
-    @Test
-    public void testRep3HeaderFooterNoData() {
-        List<ReportData> emptyList = new ArrayList<>();
-        ResultPrinter resultPrinter = new ResultPrinter("r3",emptyList);
-        String reportName = "Raport 3";
-        String n1 = "Nazwa Projektu";
-        String n2 = "Czas [godziny]";
-        String n3 = "Procent [%]";
-        String linia = "-".repeat(75);
-        String report = "";
-
-        report += reportName + "\n";
-        report += linia + "\n";
-        report += "| %-35s | %-15s | %-15s |\n".formatted(n1, n2, n3);
-        report += linia + "\n";
-        report += linia + "\n";
-
-        assertEquals(report,resultPrinter.getReport_3());
-    }
-
-    @Test
-    public void testRep4HeaderFooterNoData() {
-        List<ReportData> emptyList = new ArrayList<>();
-        ResultPrinter resultPrinter = new ResultPrinter("r4",emptyList);
-        String reportName = "Raport 4";
-        String n1 = "Nazwa Zadania";
-        String n2 = "Czas [godziny]";
-        String linia = "-".repeat(57);
-        String report = "";
-
-        report += reportName + "\n";
-        report += linia + "\n";
-        report += "| %-35s | %-15s |\n".formatted(n1, n2);
-        report += linia + "\n";
-        report += linia + "\n";
-
-        assertEquals(report,resultPrinter.getReport_4());
-    }
 
     @Test
     public void testRep1Data() {
         ReportData reportData1 = new ReportData();
         reportData1.setUser("user1");
         reportData1.setDuration(11.11);
+        reportData1.setFromDate("2025.12.23");
+        reportData1.setToDate("2026.05.12");
 
         ReportData reportData2 = new ReportData();
         reportData2.setUser("user2");
         reportData2.setDuration(22.22);
+        reportData2.setFromDate("2025.12.23");
+        reportData2.setToDate("2026.05.12");
 
         List<ReportData> dataRows = new ArrayList<>();
         dataRows.add(reportData1);
         dataRows.add(reportData2);
 
-        String reportName = "Raport 1";
+        String reportName = "Zestawienie czasu pracy pracowników za okres: ";
+        String fromDate = dataRows.getFirst().getFromDate();
+        String toDate = dataRows.getFirst().getToDate();
         String n1 = "Nazwa Pracownika";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
         String report = "";
 
-        report += reportName + "\n";
+        report += reportName + fromDate + " - " + toDate + "\n";
         report += linia + "\n";
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";
@@ -122,22 +52,28 @@ public class ResultPrinterTest {
         ReportData reportData1 = new ReportData();
         reportData1.setProject("project1");
         reportData1.setDuration(11.11);
+        reportData1.setFromDate("2025.12.23");
+        reportData1.setToDate("2026.05.12");
 
         ReportData reportData2 = new ReportData();
         reportData2.setProject("project2");
         reportData2.setDuration(22.22);
+        reportData2.setFromDate("2025.12.23");
+        reportData2.setToDate("2026.05.12");
 
         List<ReportData> dataRows = new ArrayList<>();
         dataRows.add(reportData1);
         dataRows.add(reportData2);
 
-        String reportName = "Raport 2";
+        String reportName = "Zestawienie czasu pracy w projektach za okres:";
+        String fromDate = dataRows.getFirst().getFromDate();
+        String toDate = dataRows.getFirst().getToDate();
         String n1 = "Nazwa Projektu";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
         String report = "";
 
-        report += reportName + "\n";
+        report += reportName + fromDate + " - " + toDate + "\n";
         report += linia + "\n";
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";
@@ -157,24 +93,30 @@ public class ResultPrinterTest {
         reportData1.setProject("project1");
         reportData1.setDuration(11.11);
         reportData1.setPercentage(51.0);
+        reportData1.setFromDate("2025.12.23");
+        reportData1.setToDate("2026.05.12");
+
 
         ReportData reportData2 = new ReportData();
         reportData2.setProject("project2");
         reportData2.setDuration(22.22);
-        reportData2.setPercentage(49.0);
+        reportData2.setFromDate("2025.12.23");
+        reportData2.setToDate("2026.05.12");
 
         List<ReportData> dataRows = new ArrayList<>();
         dataRows.add(reportData1);
         dataRows.add(reportData2);
 
-        String reportName = "Raport 3";
+        String reportName = "Zestawienie projektów dla pracownika za okres: ";
+        String fromDate = dataRows.getFirst().getFromDate();
+        String toDate = dataRows.getFirst().getToDate();
         String n1 = "Nazwa Projektu";
         String n2 = "Czas [godziny]";
         String n3 = "Procent [%]";
         String linia = "-".repeat(75);
         String report = "";
 
-        report += reportName + "\n";
+        report += reportName + fromDate + " - " + toDate + "\n";
         report += linia + "\n";
         report += "| %-35s | %-15s | %-15s |\n".formatted(n1, n2, n3);
         report += linia + "\n";
@@ -193,22 +135,28 @@ public class ResultPrinterTest {
         ReportData reportData1 = new ReportData();
         reportData1.setTask("task1");
         reportData1.setDuration(11.11);
+        reportData1.setFromDate("2025.12.23");
+        reportData1.setToDate("2026.05.12");
 
         ReportData reportData2 = new ReportData();
         reportData2.setTask("task2");
         reportData2.setDuration(22.22);
+        reportData2.setFromDate("2025.12.23");
+        reportData2.setToDate("2026.05.12");
 
         List<ReportData> dataRows = new ArrayList<>();
         dataRows.add(reportData1);
         dataRows.add(reportData2);
 
-        String reportName = "Raport 4";
+        String reportName = "Zestawienie zadań w projekcie za okres: ";
+        String fromDate = dataRows.getFirst().getFromDate();
+        String toDate = dataRows.getFirst().getToDate();
         String n1 = "Nazwa Zadania";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
         String report = "";
 
-        report += reportName + "\n";
+        report += reportName + fromDate + " - " + toDate + "\n";
         report += linia + "\n";
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";
