@@ -7,12 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class XlsxPrinter {
+public class xlsxGenerator {
 
     private final String reportType;
     private final List<ReportData> reportData;
 
-    public XlsxPrinter(String reportType, List<ReportData> reportData) {
+    public xlsxGenerator(String reportType, List<ReportData> reportData) {
         this.reportType = reportType;
         this.reportData = reportData;
     }
