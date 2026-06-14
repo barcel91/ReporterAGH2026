@@ -91,8 +91,10 @@ public class ReportOrchestrator {
                     return;
             }
 
-            System.out.println("Zestawienie czasu pracy w projektach za okres:" + fromDate + " - " + toDate);
-            ResultPrinter resultPrinter = new ResultPrinter(reportContext.getReportType(), reportData.stream().toList());
+//            System.out.println("Zestawienie czasu pracy w projektach za okres:" + fromDate + " - " + toDate);
+            ResultPrinter
+
+                    resultPrinter = new ResultPrinter(reportContext.getReportType(), reportData.stream().toList());
             resultPrinter.print();
 
         } catch (IllegalArgumentException e) {
