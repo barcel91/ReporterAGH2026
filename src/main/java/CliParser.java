@@ -14,7 +14,12 @@ public class CliParser {
                 }
             }
             if (arg.equals("-emp")) {
-                context.setEmployeeName(args[++i]);
+                if (args.length > 3) {
+                    context.setEmployeeName(args[i + 1] + " " + args[i + 2]);
+                }
+                else  {
+                    throw new IllegalArgumentException("Employee name not specified");
+                }
             }
             if (arg.equals("-project")) {
                 context.setProjectName(args[++i]);

@@ -21,7 +21,7 @@ public class ReportOrchestrator {
             Collection<ReportData> reportData;
             switch (reportContext.getReportType()) {
                 case "-r1":
-                    reportData = reportService.hoursByProject(allTasks);
+                    reportData = reportService.hoursByEmployee(allTasks);
                     break;
                 case "-r2":
                     reportData = reportService.hoursByProject(allTasks);
