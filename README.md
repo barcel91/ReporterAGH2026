@@ -53,7 +53,7 @@ Kokos Jan
 |   Projekt1          |       200         |         50%         |
 |   Projekt2          |       200         |         50%         |
 
-Raport jest uruchamiany komendą: -r3 -emp Nazwisko Imię
+Raport jest uruchamiany komendą: -r3 -emp Nazwisko Imię -from DD.MM.RRRR -to DD.MM.RRR
 Przykład: -r3 -emp Kokos Jan
 
 ---
@@ -69,7 +69,7 @@ Projekt1
 |   Zadanie1          |       23          |
 |   Zadanie2          |       17          |
 
-Raport jest uruchamiany komendą: -r4 -emp NazwaProjektu
+Raport jest uruchamiany komendą: -r4 -emp NazwaProjektu -from DD.MM.RRRR -to DD.MM.RRR
 Przykład: -r4 -emp Projekt1
 
 ---
@@ -103,3 +103,8 @@ Osługa błędów:
 |CliParser|Podanych kilka typów raportu - komunikat: "Multiple report types detected. You can generate only 1 report at the same time"|
 |CliParser|Brak podanych danych pracownika w konsoli "Employee name not specified"|
 |ResultPrinter|Brak danych do wyświetlenia (pusty excel lub brak danych w podanym zakresie) - komunikat: "Zestawienie czasu pracy pracowników - Brak Danych !"|
+|ReportOrchestrator|Nieprawidłowy format daty - komunikat: "Invalid date format."|
+|ReportOrchestrator|Nieprawidłowy typ raportu - komunikat: "Invalid report type. Report type -r10 does not exist."|
+|ReportOrchestrator|Nieprawidłowe parametry - komunikat: "Wrong report params: " + e.getMessage()|
+
+
