@@ -28,10 +28,10 @@ public class ResultPrinter {
 
 public void print() {
     switch (reportType) {
-        case "r1" -> System.out.println(getReport_1());
-        case "r2" -> System.out.println(getReport_2());
-        case "r3" -> System.out.println(getReport_3());
-        case "r4" -> System.out.println(getReport_4());
+        case "-r1" -> System.out.println(getReport_1());
+        case "-r2" -> System.out.println(getReport_2());
+        case "-r3" -> System.out.println(getReport_3());
+        case "-r4" -> System.out.println(getReport_4());
         default -> throw new IllegalArgumentException("Nieznany typ raportu: " + reportType);
     };
 }
