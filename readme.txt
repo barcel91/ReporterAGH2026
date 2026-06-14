@@ -41,7 +41,7 @@ Wymagania funkcjonalne do Raportu 2:
 	- łączne ilość godzin zalogowanych do danego raportu
 
 
-Zestawienie czasu pracy pracowników za okres: 2026-01-01 - 2026-06-30
+Zestawienie czasu pracy w projektach za okres: 2026-01-01 - 2026-06-30
 ___________________________________________
 |   Nazwa Projektu    |   Czas [godziny]  |
 |---------------------|-------------------|
