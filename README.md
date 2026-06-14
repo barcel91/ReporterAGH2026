@@ -85,8 +85,8 @@ Kokos Jan
 |   Zadanie1          |       389         |
 |   Zadanie2          |       257         |
 
-Raport jest uruchamiany komendą: -r5 -emp Nazwisko Imię
-Przykład: -r5 -emp Kokos Jan
+Raport jest uruchamiany komendą: -r5 -emp Nazwisko Imię -from DD.MM.RRRR -to DD.MM.RRR
+Przykład: -r5 -emp Kokos Jan -from 12.01.2012 -to 17.01.2012
 
 ---
 
