@@ -14,7 +14,7 @@ Wymagania do programu:
 8. Raporty uruchamia się przy pomocy komend w konsoli
 9. Aplikacja jest uruchamiana dla konkretnego raportu
 
-
+---
 Raport 1:
 Raport pokazuje czas zalogowany przez danego pracownika
 
