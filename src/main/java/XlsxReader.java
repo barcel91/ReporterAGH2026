@@ -29,7 +29,7 @@ public class XlsxReader {
     public ArrayList<Task> readData(String s) throws IOException {
         src = Paths.get(s);
         try (var files = Files.walk(src)) {
-            files.filter(Files::isRegularFile)
+            files.parallel().filter(Files::isRegularFile)
                     .forEach(this::addTask);
         }
 
@@ -105,7 +105,6 @@ public class XlsxReader {
                     putError(dateFile, formatError(fileName, project, row, DATE, INVALID_ERROR));
                     continue;
                 }
-
                 double duration;
                 try {
                      duration = Double.parseDouble(getCellValue(durationCell));
@@ -113,11 +112,12 @@ public class XlsxReader {
                     putError(dateFile, formatError(fileName, project, row, DURATION, INVALID_ERROR));
                     continue;
                 }
-
                 if(duration <= 0){
                     putError(dateFile, formatError(fileName, project, row, DURATION, "nonpositive"));
                     continue;
                 }
+
+                task.setDuration(duration);
 
                 tasks.add(task);
             }

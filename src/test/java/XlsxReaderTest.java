@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,11 +26,14 @@ class XlsxReaderTest {
     @Test
     public void shouldReturnTaskForStandardFiles() throws IOException {
         ArrayList<Task> tasks = xlsxReader.readData(standardFiles);
-
+        assertAll(() -> assertNotNull(tasks));
         assertAll(
                 () -> assertFalse(tasks.isEmpty()),
-                () -> assertEquals(11, tasks.size())
+                () -> assertEquals(10, tasks.size()),
+                () -> assertTrue(tasks.stream().noneMatch(Objects::isNull)),
+                () -> assertFalse(tasks.stream().anyMatch(t ->
+                        t.getUser() == null || t.getProject() == null || t.getData() == null ||
+                                t.getTask() == null || t.getDuration() <= 0))
         );
     }
-
 }
