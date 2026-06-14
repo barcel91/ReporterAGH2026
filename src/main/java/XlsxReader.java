@@ -11,15 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-// folder might not include files
-
-// not errors
-// all cells in row empty - just continue
-// at least one cell empty - info to user
 
 public class XlsxReader {
     private static final DataFormatter DATA_FORMATTER = new DataFormatter();
@@ -36,9 +28,6 @@ public class XlsxReader {
 
     public ArrayList<Task> readData(String s) throws IOException {
         src = Paths.get(s);
-
-        long l = System.currentTimeMillis();
-
         try (var walk = Files.walk(src)) {
             walk.filter(Files::isRegularFile).forEach(this::addTask);
         }
@@ -46,7 +35,6 @@ public class XlsxReader {
             System.err.println(k);
             v.forEach(System.err::println);
         });
-        System.out.println(System.currentTimeMillis() - l);
 
         return tasks;
     }
