@@ -90,6 +90,7 @@ public class ReportOrchestrator {
                         System.out.println("Export to XSLX");
                         xlsxGenerator.generate(reportContext.getReportType(), reportData.stream().toList());
                     }
+                    break;
                 default:
                     System.out.println("Invalid report type. Report type "  + reportContext.getReportType() + " does not exist.");
                     return;
