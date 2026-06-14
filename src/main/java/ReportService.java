@@ -196,5 +196,59 @@ public class ReportService {
                                 a.getDuration()))
                 .collect(Collectors.toList());
     }
+
+    public Collection<ReportData> employeeTasks(
+            Collection<Task> tasks,
+            String user,
+            int limit) {
+
+        return tasks.stream()
+                .filter(task -> user.equals(task.getUser()))
+                .collect(Collectors.groupingBy(
+                        Task::getTask,
+                        Collectors.summingDouble(Task::getDuration)
+                ))
+                .entrySet()
+                .stream()
+                .map(entry -> {
+                    ReportData data = new ReportData();
+                    data.setUser(user);
+                    data.setTask(entry.getKey());
+                    data.setDuration(entry.getValue());
+                    return data;
+                })
+                .sorted((a, b) ->
+                        Double.compare(
+                                b.getDuration(),
+                                a.getDuration()))
+                .limit(limit)
+                .collect(Collectors.toList());
+    }
+
+    public Collection<ReportData> employeeTasks(
+            Collection<Task> tasks,
+            String user) {
+
+        return tasks.stream()
+                .filter(task -> user.equals(task.getUser()))
+                .collect(Collectors.groupingBy(
+                        Task::getTask,
+                        Collectors.summingDouble(Task::getDuration)
+                ))
+                .entrySet()
+                .stream()
+                .map(entry -> {
+                    ReportData data = new ReportData();
+                    data.setUser(user);
+                    data.setTask(entry.getKey());
+                    data.setDuration(entry.getValue());
+                    return data;
+                })
+                .sorted((a, b) ->
+                        Double.compare(
+                                b.getDuration(),
+                                a.getDuration()))
+                .collect(Collectors.toList());
+    }
 }
 
