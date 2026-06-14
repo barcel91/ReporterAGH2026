@@ -93,6 +93,7 @@ Przykład: -r5 -emp Kokos Jan
 
 Osługa błędów:
 |**Klasa**|**Nazwa błędu**|
+|---------|---------------|
 |App|Brak podanych parametrów w konsoli - komunikat: "Please provide params to generate report"|
 |XlsxReader|Informacja - pusta komórka|
 |XlsxReader|Informacja -komórka z nieporawną datą|
