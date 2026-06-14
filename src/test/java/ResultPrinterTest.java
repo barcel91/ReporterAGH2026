@@ -12,7 +12,9 @@ public class ResultPrinterTest {
         ResultPrinter rp = new ResultPrinter("test",null);
         String testText = "Testowy";
         String result1 = rp.cutText(6,testText);
+        String result2 = rp.cutText(30,testText);
         assertEquals("Tes...",result1);
+        assertEquals("Testowy",result2);
     }
 
 
