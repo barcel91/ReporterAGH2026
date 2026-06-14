@@ -59,7 +59,7 @@ public class ResultPrinter {
         String linia = "-".repeat(57);
         String report = "";
 
-        report += reportName + fromDate + " - " + toDate + "\n";
+//        report += reportName + fromDate + " - " + toDate + "\n";
         report += linia + "\n";
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";

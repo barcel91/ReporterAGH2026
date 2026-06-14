@@ -26,6 +26,11 @@ public class ReportOrchestrator {
             LocalDate fromDate = reportContext.getDateFrom();
             LocalDate toDate = reportContext.getDateTo();
 
+            if(fromDate==null){
+                fromDate = allTasks.stream().map(Task::getData).min(LocalDate::compareTo).get();
+                toDate = allTasks.stream().map(Task::getData).min(LocalDate::compareTo).get();
+            }
+
             List<Task> filteredListOfTasks = filterTaskByDate(allTasks, fromDate, toDate);
 
             Collection<ReportData> reportData;
@@ -86,6 +91,7 @@ public class ReportOrchestrator {
                     return;
             }
 
+            System.out.println("Zestawienie czasu pracy w projektach za okres:" + fromDate + " - " + toDate);
             ResultPrinter resultPrinter = new ResultPrinter(reportContext.getReportType(), reportData.stream().toList());
             resultPrinter.print();
 
