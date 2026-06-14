@@ -8,6 +8,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ResultPrinterTest {
 
     @Test
+    public void testCutText(){
+        ResultPrinter rp = new ResultPrinter("test",null);
+        String testText = "Testowy";
+        String result1 = rp.cutText(6,testText);
+        assertEquals("Tes...",result1);
+    }
+
+
+    @Test
     public void testRep1Data() {
         ReportData reportData1 = new ReportData();
         reportData1.setUser("user1");

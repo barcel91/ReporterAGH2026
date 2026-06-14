@@ -26,15 +26,24 @@ public class ResultPrinter {
     }
 
 
-public void print() {
+    public void print() {
     switch (reportType) {
         case "-r1" -> System.out.println(getReport_1());
         case "-r2" -> System.out.println(getReport_2());
         case "-r3" -> System.out.println(getReport_3());
         case "-r4" -> System.out.println(getReport_4());
+        case "-r5" -> System.out.println(getReport_5());
         default -> throw new IllegalArgumentException("Nieznany typ raportu: " + reportType);
     };
 }
+
+
+    public String cutText(int maxLength, String text){
+        if (text.length() > maxLength){
+            return (text.substring(0, maxLength-3)+"...");
+        }
+        else return text;
+    }
 
     //User + Duration
     public String getReport_1(){
@@ -51,7 +60,7 @@ public void print() {
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";
         for(ReportData reportRow : reportData) {
-            report += "| %-35s | %-15s |\n".formatted(reportRow.getUser(), reportRow.getDuration());
+            report += "| %-35s | %-15s |\n".formatted(cutText(35,reportRow.getUser()), reportRow.getDuration());
         }
         report += linia + "\n";
         return report;
@@ -72,7 +81,7 @@ public void print() {
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";
         for(ReportData reportRow : reportData) {
-            report += "| %-35s | %-15s |\n".formatted(reportRow.getProject(), reportRow.getDuration());
+            report += "| %-35s | %-15s |\n".formatted(cutText(35,reportRow.getProject()), reportRow.getDuration());
         }
         report += linia + "\n";
         return report;
@@ -94,7 +103,7 @@ public void print() {
         report += "| %-35s | %-15s | %-15s |\n".formatted(n1, n2, n3);
         report += linia + "\n";
         for(ReportData reportRow : reportData) {
-            report += "| %-35s | %-15s | %-15s |\n".formatted(reportRow.getProject(), reportRow.getDuration() , reportRow.getPercentage());
+            report += "| %-35s | %-15s | %-15s |\n".formatted(cutText(35,reportRow.getProject()), reportRow.getDuration() , reportRow.getPercentage());
         }
         report += linia + "\n";
         return report;
@@ -115,7 +124,7 @@ public void print() {
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";
         for(ReportData reportRow : reportData) {
-            report += "| %-35s | %-15s |\n".formatted(reportRow.getTask(), reportRow.getDuration());
+            report += "| %-35s | %-15s |\n".formatted(cutText(35,reportRow.getTask()), reportRow.getDuration());
         }
         report += linia + "\n";
         return report;
@@ -136,7 +145,7 @@ public void print() {
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";
         for(ReportData reportRow : reportData) {
-            report += "| %-35s | %-15s |\n".formatted(reportRow.getTask(), reportRow.getDuration());
+            report += "| %-35s | %-15s |\n".formatted(cutText(35,reportRow.getTask()), reportRow.getDuration());
         }
         report += linia + "\n";
         return report;
