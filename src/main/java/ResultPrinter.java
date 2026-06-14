@@ -1,12 +1,20 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ResultPrinter {
     private String reportType;
     private List<ReportData> reportData;
+    private String fromDate;
+    private String toDate;
 
-    public ResultPrinter(String reportType, List<ReportData> reportData){
-        this.reportData = reportData;
+    public ResultPrinter(String reportType, List<ReportData> reportData, LocalDate fromDate, LocalDate toDate){
         this.reportType = reportType;
+        this.reportData = reportData;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        this.fromDate = (fromDate != null) ? fromDate.format(formatter) : "Brak";
+        this.toDate = (toDate != null) ? toDate.format(formatter) : "Brak";
     }
 
     public String getReportType() {
@@ -52,14 +60,14 @@ public class ResultPrinter {
             return "Zestawienie czasu pracy pracowników - Brak Danych !";
 
         String reportName = "Zestawienie czasu pracy pracowników za okres: ";
-        String fromDate = reportData.getFirst().getFromDate();
-        String toDate = reportData.getFirst().getToDate();
+//        String fromDate = reportData.getFirst().getFromDate();
+//        String toDate = reportData.getFirst().getToDate();
         String n1 = "Nazwa Pracownika";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
         String report = "";
 
-//        report += reportName + fromDate + " - " + toDate + "\n";
+        report += reportName + fromDate + " - " + toDate + "\n";
         report += linia + "\n";
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";
@@ -76,8 +84,8 @@ public class ResultPrinter {
             return "Zestawienie czasu pracy w projektach - Brak Danych !";
 
         String reportName = "Zestawienie czasu pracy w projektach za okres:";
-        String fromDate = reportData.getFirst().getFromDate();
-        String toDate = reportData.getFirst().getToDate();
+//        String fromDate = reportData.getFirst().getFromDate();
+//        String toDate = reportData.getFirst().getToDate();
         String n1 = "Nazwa Projektu";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
@@ -100,8 +108,8 @@ public class ResultPrinter {
             return "Zestawienie projektów dla pracownika - Brak Danych !";
 
         String reportName = "Zestawienie projektów dla pracownika za okres: ";
-        String fromDate = reportData.getFirst().getFromDate();
-        String toDate = reportData.getFirst().getToDate();
+//        String fromDate = reportData.getFirst().getFromDate();
+//        String toDate = reportData.getFirst().getToDate();
         String n1 = "Nazwa Projektu";
         String n2 = "Czas [godziny]";
         String n3 = "Procent [%]";
@@ -125,8 +133,8 @@ public class ResultPrinter {
             return "Zestawienie zadań w projekcie - Brak Danych !";
 
         String reportName = "Zestawienie zadań w projekcie za okres: ";
-        String fromDate = reportData.getFirst().getFromDate();
-        String toDate = reportData.getFirst().getToDate();
+//        String fromDate = reportData.getFirst().getFromDate();
+//        String toDate = reportData.getFirst().getToDate();
         String n1 = "Nazwa Zadania";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
@@ -149,8 +157,8 @@ public class ResultPrinter {
             return "Zestawienie zadań dla pracownika - Brak Danych !";
 
         String reportName = "Zestawienie zadań dla pracownika za okres: ";
-        String fromDate = reportData.getFirst().getFromDate();
-        String toDate = reportData.getFirst().getToDate();
+//        String fromDate = reportData.getFirst().getFromDate();
+//        String toDate = reportData.getFirst().getToDate();
         String n1 = "Nazwa Zadania";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);

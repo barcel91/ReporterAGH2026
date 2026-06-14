@@ -27,8 +27,8 @@ public class ReportOrchestrator {
             LocalDate toDate = reportContext.getDateTo();
 
             if(fromDate==null){
-                fromDate = allTasks.stream().map(Task::getData).min(LocalDate::compareTo).get();
-                toDate = allTasks.stream().map(Task::getData).min(LocalDate::compareTo).get();
+                fromDate = allTasks.stream().map(Task::getData).min(LocalDate::compareTo).orElse(null);
+                toDate = allTasks.stream().map(Task::getData).max(LocalDate::compareTo).orElse(null);
             }
 
             List<Task> filteredListOfTasks = filterTaskByDate(allTasks, fromDate, toDate);
@@ -91,10 +91,13 @@ public class ReportOrchestrator {
                     return;
             }
 
-//            System.out.println("Zestawienie czasu pracy w projektach za okres:" + fromDate + " - " + toDate);
-            ResultPrinter
-
-                    resultPrinter = new ResultPrinter(reportContext.getReportType(), reportData.stream().toList());
+            // System.out.println("Zestawienie czasu pracy w projektach za okres:" + fromDate + " - " + toDate);
+            ResultPrinter resultPrinter = new ResultPrinter(
+                    reportContext.getReportType(),
+                    reportData.stream().toList(),
+                    fromDate,
+                    toDate
+            );
             resultPrinter.print();
 
         } catch (IllegalArgumentException e) {

@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class ResultPrinterTest {
 
     @Test
     public void testCutText(){
-        ResultPrinter rp = new ResultPrinter("test",null);
+        ResultPrinter rp = new ResultPrinter("test",null, null, null);
         String testText = "Testowy";
         String result1 = rp.cutText(6,testText);
         String result2 = rp.cutText(30,testText);
@@ -20,35 +21,35 @@ public class ResultPrinterTest {
     @Test
     public void testRep1EmptyData(){
         List<ReportData> dataRows = new ArrayList<>();
-        ResultPrinter resultPrinter = new ResultPrinter("r1",dataRows);
+        ResultPrinter resultPrinter = new ResultPrinter("-r1",dataRows, null, null);
         assertEquals("Zestawienie czasu pracy pracowników - Brak Danych !",resultPrinter.getReport_1());
     }
 
     @Test
     public void testRep2EmptyData(){
         List<ReportData> dataRows = new ArrayList<>();
-        ResultPrinter resultPrinter = new ResultPrinter("r1",dataRows);
+        ResultPrinter resultPrinter = new ResultPrinter("-r2",dataRows, null, null);
         assertEquals("Zestawienie czasu pracy w projektach - Brak Danych !",resultPrinter.getReport_2());
     }
 
     @Test
     public void testRep3EmptyData(){
         List<ReportData> dataRows = new ArrayList<>();
-        ResultPrinter resultPrinter = new ResultPrinter("r1",dataRows);
+        ResultPrinter resultPrinter = new ResultPrinter("-r3",dataRows, null, null);
         assertEquals("Zestawienie projektów dla pracownika - Brak Danych !",resultPrinter.getReport_3());
     }
 
     @Test
     public void testRep4EmptyData(){
         List<ReportData> dataRows = new ArrayList<>();
-        ResultPrinter resultPrinter = new ResultPrinter("r1",dataRows);
+        ResultPrinter resultPrinter = new ResultPrinter("-r4",dataRows, null, null);
         assertEquals("Zestawienie zadań w projekcie - Brak Danych !",resultPrinter.getReport_4());
     }
 
     @Test
     public void testRep5EmptyData(){
         List<ReportData> dataRows = new ArrayList<>();
-        ResultPrinter resultPrinter = new ResultPrinter("r1",dataRows);
+        ResultPrinter resultPrinter = new ResultPrinter("-r5",dataRows, null, null);
         assertEquals("Zestawienie zadań dla pracownika - Brak Danych !",resultPrinter.getReport_5());
     }
 
@@ -100,22 +101,21 @@ public class ResultPrinterTest {
         ReportData reportData1 = new ReportData();
         reportData1.setProject("project1");
         reportData1.setDuration(11.11);
-        reportData1.setFromDate("2025.12.23");
-        reportData1.setToDate("2026.05.12");
 
         ReportData reportData2 = new ReportData();
         reportData2.setProject("project2");
         reportData2.setDuration(22.22);
-        reportData2.setFromDate("2025.12.23");
-        reportData2.setToDate("2026.05.12");
 
         List<ReportData> dataRows = new ArrayList<>();
         dataRows.add(reportData1);
         dataRows.add(reportData2);
 
+        LocalDate testFrom = LocalDate.of(2025, 12, 23);
+        LocalDate testTo = LocalDate.of(2026, 5, 12);
+
         String reportName = "Zestawienie czasu pracy w projektach za okres:";
-        String fromDate = dataRows.getFirst().getFromDate();
-        String toDate = dataRows.getFirst().getToDate();
+        String fromDate = "23.12.2025";
+        String toDate = "12.05.2026";
         String n1 = "Nazwa Projektu";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
@@ -130,7 +130,7 @@ public class ResultPrinterTest {
         }
         report += linia + "\n";
 
-        ResultPrinter resultPrinter = new ResultPrinter("r2",dataRows);
+        ResultPrinter resultPrinter = new ResultPrinter("-r2", dataRows, testFrom, testTo);
 
         assertEquals(report,resultPrinter.getReport_2());
     }
@@ -141,23 +141,22 @@ public class ResultPrinterTest {
         reportData1.setProject("project1");
         reportData1.setDuration(11.11);
         reportData1.setPercentage(51.0);
-        reportData1.setFromDate("2025.12.23");
-        reportData1.setToDate("2026.05.12");
 
 
         ReportData reportData2 = new ReportData();
         reportData2.setProject("project2");
         reportData2.setDuration(22.22);
-        reportData2.setFromDate("2025.12.23");
-        reportData2.setToDate("2026.05.12");
 
         List<ReportData> dataRows = new ArrayList<>();
         dataRows.add(reportData1);
         dataRows.add(reportData2);
 
+        LocalDate testFrom = LocalDate.of(2025, 12, 23);
+        LocalDate testTo = LocalDate.of(2026, 5, 12);
+
         String reportName = "Zestawienie projektów dla pracownika za okres: ";
-        String fromDate = dataRows.getFirst().getFromDate();
-        String toDate = dataRows.getFirst().getToDate();
+        String fromDate = "23.12.2025";
+        String toDate = "12.05.2026";
         String n1 = "Nazwa Projektu";
         String n2 = "Czas [godziny]";
         String n3 = "Procent [%]";
@@ -173,7 +172,7 @@ public class ResultPrinterTest {
         }
         report += linia + "\n";
 
-        ResultPrinter resultPrinter = new ResultPrinter("r3",dataRows);
+        ResultPrinter resultPrinter = new ResultPrinter("-r3",dataRows, testFrom, testTo);
 
         assertEquals(report,resultPrinter.getReport_3());
     }
@@ -183,22 +182,21 @@ public class ResultPrinterTest {
         ReportData reportData1 = new ReportData();
         reportData1.setTask("task1");
         reportData1.setDuration(11.11);
-        reportData1.setFromDate("2025.12.23");
-        reportData1.setToDate("2026.05.12");
 
         ReportData reportData2 = new ReportData();
         reportData2.setTask("task2");
         reportData2.setDuration(22.22);
-        reportData2.setFromDate("2025.12.23");
-        reportData2.setToDate("2026.05.12");
 
         List<ReportData> dataRows = new ArrayList<>();
         dataRows.add(reportData1);
         dataRows.add(reportData2);
 
+        LocalDate testFrom = LocalDate.of(2025, 12, 23);
+        LocalDate testTo = LocalDate.of(2026, 5, 12);
+
         String reportName = "Zestawienie zadań w projekcie za okres: ";
-        String fromDate = dataRows.getFirst().getFromDate();
-        String toDate = dataRows.getFirst().getToDate();
+        String fromDate = "23.12.2025";
+        String toDate = "12.05.2026";
         String n1 = "Nazwa Zadania";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
@@ -213,7 +211,7 @@ public class ResultPrinterTest {
         }
         report += linia + "\n";
 
-        ResultPrinter resultPrinter = new ResultPrinter("r4",dataRows);
+        ResultPrinter resultPrinter = new ResultPrinter("-r4",dataRows, testFrom, testTo);
 
         assertEquals(report,resultPrinter.getReport_4());
     }
@@ -223,22 +221,21 @@ public class ResultPrinterTest {
         ReportData reportData1 = new ReportData();
         reportData1.setTask("task1");
         reportData1.setDuration(11.11);
-        reportData1.setFromDate("2025.12.23");
-        reportData1.setToDate("2026.05.12");
 
         ReportData reportData2 = new ReportData();
         reportData2.setTask("task2");
         reportData2.setDuration(22.22);
-        reportData2.setFromDate("2025.12.23");
-        reportData2.setToDate("2026.05.12");
 
         List<ReportData> dataRows = new ArrayList<>();
         dataRows.add(reportData1);
         dataRows.add(reportData2);
 
+        LocalDate testFrom = LocalDate.of(2025, 12, 23);
+        LocalDate testTo = LocalDate.of(2026, 5, 12);
+
         String reportName = "Zestawienie zadań dla pracownika za okres: ";
-        String fromDate = dataRows.getFirst().getFromDate();
-        String toDate = dataRows.getFirst().getToDate();
+        String fromDate = "23.12.2025";
+        String toDate = "12.05.2026";
         String n1 = "Nazwa Zadania";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
@@ -253,7 +250,7 @@ public class ResultPrinterTest {
         }
         report += linia + "\n";
 
-        ResultPrinter resultPrinter = new ResultPrinter("r5",dataRows);
+        ResultPrinter resultPrinter = new ResultPrinter("-r5",dataRows, testFrom, testTo);
 
         assertEquals(report,resultPrinter.getReport_5());
     }
