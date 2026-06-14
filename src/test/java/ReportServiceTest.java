@@ -175,6 +175,46 @@ class ReportServiceTest {
         assertEquals(0, result.size());
     }
 
+    @Test
+    void shouldAggregateEmployeeTasks() {
+
+        List<Task> tasks = List.of(
+                createTask("Piotr", "ProjectA", "Task1", 2.0),
+                createTask("Piotr", "ProjectB", "Task1", 3.0),
+                createTask("Piotr", "ProjectA", "Task2", 4.0),
+                createTask("Maciek", "ProjectA", "Task1", 10.0)
+        );
+
+        Collection<ReportData> result =
+                reportService.employeeTasks(tasks, "Piotr", 10);
+
+        assertEquals(2, result.size());
+
+        Map<String, Double> hoursByTask = result.stream()
+                .collect(Collectors.toMap(
+                        ReportData::getTask,
+                        ReportData::getDuration
+                ));
+
+        assertEquals(5.0, hoursByTask.get("Task1"));
+        assertEquals(4.0, hoursByTask.get("Task2"));
+    }
+
+    @Test
+    void shouldRespectLimitInEmployeeTasks() {
+
+        List<Task> tasks = List.of(
+                createTask("Piotr", "ProjectA", "Task1", 5.0),
+                createTask("Piotr", "ProjectA", "Task2", 3.0),
+                createTask("Piotr", "ProjectA", "Task3", 1.0)
+        );
+
+        Collection<ReportData> result =
+                reportService.employeeTasks(tasks, "Piotr", 2);
+
+        assertEquals(2, result.size());
+    }
+
     private Task createTask(
             String user,
             String project,
