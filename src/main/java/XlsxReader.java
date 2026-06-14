@@ -11,7 +11,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 
 public class XlsxReader {
     private static final DataFormatter DATA_FORMATTER = new DataFormatter();
@@ -28,8 +30,16 @@ public class XlsxReader {
 
     public ArrayList<Task> readData(String s) throws IOException {
         src = Paths.get(s);
-        try (var walk = Files.walk(src)) {
-            walk.filter(Files::isRegularFile).forEach(this::addTask);
+        try (var directories = Files.list(src)) {
+            if (directories.anyMatch(Files::isRegularFile)) {
+                throw new IllegalArgumentException("Directory has invalid structure!");
+            }
+        }
+
+        try (var files = Files.walk(src)) {
+            files.filter(Files::isRegularFile)
+                    .forEach(this::addTask);
+
         }
         errorsTree.forEach((k,v) -> {
             System.err.println(k);
