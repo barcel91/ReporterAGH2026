@@ -17,6 +17,42 @@ public class ResultPrinterTest {
         assertEquals("Testowy",result2);
     }
 
+    @Test
+    public void testRep1EmptyData(){
+        List<ReportData> dataRows = new ArrayList<>();
+        ResultPrinter resultPrinter = new ResultPrinter("r1",dataRows);
+        assertEquals("Zestawienie czasu pracy pracowników - Brak Danych !",resultPrinter.getReport_1());
+    }
+
+    @Test
+    public void testRep2EmptyData(){
+        List<ReportData> dataRows = new ArrayList<>();
+        ResultPrinter resultPrinter = new ResultPrinter("r1",dataRows);
+        assertEquals("Zestawienie czasu pracy w projektach - Brak Danych !",resultPrinter.getReport_2());
+    }
+
+    @Test
+    public void testRep3EmptyData(){
+        List<ReportData> dataRows = new ArrayList<>();
+        ResultPrinter resultPrinter = new ResultPrinter("r1",dataRows);
+        assertEquals("Zestawienie projektów dla pracownika - Brak Danych !",resultPrinter.getReport_3());
+    }
+
+    @Test
+    public void testRep4EmptyData(){
+        List<ReportData> dataRows = new ArrayList<>();
+        ResultPrinter resultPrinter = new ResultPrinter("r1",dataRows);
+        assertEquals("Zestawienie zadań w projekcie - Brak Danych !",resultPrinter.getReport_4());
+    }
+
+    @Test
+    public void testRep5EmptyData(){
+        List<ReportData> dataRows = new ArrayList<>();
+        ResultPrinter resultPrinter = new ResultPrinter("r1",dataRows);
+        assertEquals("Zestawienie zadań dla pracownika - Brak Danych !",resultPrinter.getReport_5());
+    }
+
+
 
     @Test
     public void testRep1Data() {
@@ -179,6 +215,46 @@ public class ResultPrinterTest {
         ResultPrinter resultPrinter = new ResultPrinter("r4",dataRows);
 
         assertEquals(report,resultPrinter.getReport_4());
+    }
+
+    @Test
+    public void testRep5Data() {
+        ReportData reportData1 = new ReportData();
+        reportData1.setTask("task1");
+        reportData1.setDuration(11.11);
+        reportData1.setFromDate("2025.12.23");
+        reportData1.setToDate("2026.05.12");
+
+        ReportData reportData2 = new ReportData();
+        reportData2.setTask("task2");
+        reportData2.setDuration(22.22);
+        reportData2.setFromDate("2025.12.23");
+        reportData2.setToDate("2026.05.12");
+
+        List<ReportData> dataRows = new ArrayList<>();
+        dataRows.add(reportData1);
+        dataRows.add(reportData2);
+
+        String reportName = "Zestawienie zadań dla pracownika za okres: ";
+        String fromDate = dataRows.getFirst().getFromDate();
+        String toDate = dataRows.getFirst().getToDate();
+        String n1 = "Nazwa Zadania";
+        String n2 = "Czas [godziny]";
+        String linia = "-".repeat(57);
+        String report = "";
+
+        report += reportName + fromDate + " - " + toDate + "\n";
+        report += linia + "\n";
+        report += "| %-35s | %-15s |\n".formatted(n1, n2);
+        report += linia + "\n";
+        for(ReportData reportRow : dataRows) {
+            report += "| %-35s | %-15s |\n".formatted(reportRow.getTask(), reportRow.getDuration());
+        }
+        report += linia + "\n";
+
+        ResultPrinter resultPrinter = new ResultPrinter("r5",dataRows);
+
+        assertEquals(report,resultPrinter.getReport_5());
     }
 
 }
