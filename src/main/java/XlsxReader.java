@@ -9,7 +9,10 @@ import java.nio.file.Paths;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 // folder might not include files
 
@@ -26,12 +29,11 @@ public class XlsxReader {
     private static final String EMPTY_ERROR = "empty";
     private static final String INVALID_ERROR = "invalid";
 
-    private final List<Task> tasks = new ArrayList<>();
-    private final List<String> errors = new ArrayList<>();
+    private final ArrayList<Task> tasks = new ArrayList<>();
     private final Map<String, List<String>> errorsTree = new TreeMap<>();
     private Path src;
 
-    public Collection<Task> readData(String s) throws IOException {
+    public ArrayList<Task> readData(String s) throws IOException {
         src = Paths.get(s);
 
         long l = System.currentTimeMillis();
@@ -46,9 +48,9 @@ public class XlsxReader {
     }
 
     private void addTask(Path path) {
-        String relativePath = src.relativize(path).toString();
+        String relativePath = src.getParent().relativize(path).toString();
         if (!path.toString().endsWith(".xlsx")) {
-            putError(relativePath, "Omitting %s file. Files in format other than .xslx will not be processed".formatted(relativePath));
+            putError(relativePath, "Omitting %s file. Only .xslx files will be processed".formatted(relativePath));
             return;
         }
 
@@ -61,9 +63,8 @@ public class XlsxReader {
             throw new RuntimeException(e);
         }
 
-        String user = path.getFileName().toString()
-                .replace("_", " ")
-                .replace(".xlsx", "");
+        String fileName = path.getFileName().toString();
+        String user = fileName.replaceAll("_", " ").replace(".xlsx", "");
 
         for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
             Sheet sheet = workbook.getSheetAt(i);
@@ -84,19 +85,18 @@ public class XlsxReader {
                 }
 
                 if (isEmpty(dateCell)) {
-                    localErrors.add(formatError(relativePath, project, row, DATE, EMPTY_ERROR));
+                    localErrors.add(formatError(fileName, project, row, DATE, EMPTY_ERROR));
                 }
 
                 if (isEmpty(taskCell)) {
-                    localErrors.add(formatError(relativePath, project, row, TASK, EMPTY_ERROR));
+                    localErrors.add(formatError(fileName, project, row, TASK, EMPTY_ERROR));
                 }
 
                 if (isEmpty(durationCell)) {
-                    localErrors.add(formatError(relativePath, project, row, DURATION, EMPTY_ERROR));
+                    localErrors.add(formatError(fileName, project, row, DURATION, EMPTY_ERROR));
                 }
 
                 if (!localErrors.isEmpty()) {
-                    errors.addAll(localErrors);
                     putError(relativePath, localErrors);
                     continue;
                 }
