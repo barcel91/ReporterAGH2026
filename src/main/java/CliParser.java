@@ -36,7 +36,7 @@ public class CliParser {
             if (arg.equals("-to")) {
                 context.setDateTo(args[++i]);
             }
-            if (arg.equals("-exportToXslx")) {
+            if (arg.equals("-xlsx")) {
                 context.setExportToXslx(args[++i]);
             }
         }
