@@ -40,68 +40,6 @@ public class XlsxReader {
 
         try (var walk = Files.walk(src)) {
             walk.parallel().filter(Files::isRegularFile).forEach(this::addTask);
-//            for (Path path : paths) {
-//                Path relativePath = src.relativize(path);
-//                if (!path.endsWith(".xlsx")) {
-//                    errors.add("Not proceeding with %s file. Files in format other than .xslx are omitted".formatted(relativePath));
-//                    continue;
-//                }
-//
-//                FileInputStream file = new FileInputStream(path.toString());
-//                Workbook workbook = new XSSFWorkbook(file);
-//                String user = path.getFileName().toString().replace("_", " ").replace(".xlsx", "");
-//                for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
-//                    Sheet sheet = workbook.getSheetAt(i);
-//                    String project = sheet.getSheetName();
-//
-//                    for (int j = 1; j < sheet.getPhysicalNumberOfRows(); j++) {
-//                        Row row = sheet.getRow(j);
-//                        if (row == null) {
-//                            continue;
-//                        }
-//                        Cell dateCell = row.getCell(0);
-//                        Cell taskCell = row.getCell(1);
-//                        Cell durationCell = row.getCell(2);
-//
-//                        if (isEmpty(dateCell) && isEmpty(taskCell) && isEmpty(durationCell)) {
-//                            continue;
-//                        }
-//
-//                        if (isEmpty(dateCell)) {
-//                            errors.add(formatError(relativePath, project, row, DATE, EMPTY_ERROR));
-//                            continue;
-//                        }
-//
-//                        if (isEmpty(taskCell)) {
-//                            errors.add(formatError(relativePath, project, row, TASK, EMPTY_ERROR));
-//                            continue;
-//                        }
-//
-//                        if (isEmpty(durationCell)) {
-//                            errors.add(formatError(relativePath, project, row, DURATION, EMPTY_ERROR));
-//                            continue;
-//                        }
-//
-//                        Task task = new Task();
-//                        task.setProject(project);
-//                        task.setUser(user);
-//                        task.setTask(getCellValue(taskCell));
-//                        try {
-//                            task.setData(LocalDate.parse(getCellValue(dateCell), DATE_FORMATTER));
-//                        } catch (DateTimeException e) {
-//                            errors.add(formatError(relativePath, project, row, DATE, INVALID_ERROR));
-//                        }
-//
-//                        try {
-//                            task.setDuration(Double.parseDouble(getCellValue(durationCell)));
-//                        } catch (NumberFormatException e) {
-//                            errors.add(formatError(relativePath, project, row, DURATION, INVALID_ERROR));
-//                        }
-//
-//                        tasks.add(task);
-//                    }
-//                }
-//            }
         }
         errors.forEach(System.err::println);
         System.out.println(System.currentTimeMillis()-l);
