@@ -114,7 +114,7 @@ public class ReportService {
             String user) {
 
         double totalHours = tasks.stream()
-                .filter(task -> user.equals(task.getUser().toLowerCase()))
+                .filter(task -> user.equals(task.getUser()))
                 .mapToDouble(Task::getDuration)
                 .sum();
 
