@@ -13,11 +13,6 @@ Wymagania do programu:
 7. Kod programu powinien być napisany w języku angielskim
 8. Raporty uruchamia się przy pomocy komend w konsoli
 9. Aplikacja jest uruchamiana dla konkretnego raportu
-    - komenda: "java -jar app.java -r1" wywołuje raport 1
-    - komenda: "java -jar app.java -r2" wywołuje raport 2
-    - komenda: "java -jar app.java -r3" wywołuje raport 3
-    - komenda: "java -jar app.java -r4" wywołuje raport 4
-    - komenda: "java -jar app.java -r5" wywołuje raport 5
 
 
 Raport 1:
