@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-public class xlsxGenerator {
+public class XlsxGenerator {
 
     private final String reportType;
     private final List<ReportData> reportData;
