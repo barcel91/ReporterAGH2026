@@ -38,13 +38,15 @@ public void print() {
 
     //User + Duration
     public String getReport_1(){
-        String reportName = "Raport 1";
+        String reportName = "Zestawienie czasu pracy pracowników za okres: ";
+        String fromDate = reportData.getFirst().getFromDate();
+        String toDate = reportData.getFirst().getToDate();
         String n1 = "Nazwa Pracownika";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
         String report = "";
 
-        report += reportName + "\n";
+        report += reportName + fromDate + " - " + toDate + "\n";
         report += linia + "\n";
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";
@@ -57,13 +59,15 @@ public void print() {
 
     //Project + Duration
     public String getReport_2(){
-        String reportName = "Raport 2";
+        String reportName = "Zestawienie czasu pracy w projektach za okres:";
+        String fromDate = reportData.getFirst().getFromDate();
+        String toDate = reportData.getFirst().getToDate();
         String n1 = "Nazwa Projektu";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
         String report = "";
 
-        report += reportName + "\n";
+        report += reportName + fromDate + " - " + toDate + "\n";
         report += linia + "\n";
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";
@@ -76,14 +80,16 @@ public void print() {
 
     //Project + Duration + Percent
     public String getReport_3(){
-        String reportName = "Raport 3";
+        String reportName = "Zestawienie projektów dla pracownika za okres: ";
+        String fromDate = reportData.getFirst().getFromDate();
+        String toDate = reportData.getFirst().getToDate();
         String n1 = "Nazwa Projektu";
         String n2 = "Czas [godziny]";
         String n3 = "Procent [%]";
         String linia = "-".repeat(75);
         String report = "";
 
-        report += reportName + "\n";
+        report += reportName + fromDate + " - " + toDate + "\n";
         report += linia + "\n";
         report += "| %-35s | %-15s | %-15s |\n".formatted(n1, n2, n3);
         report += linia + "\n";
@@ -94,15 +100,38 @@ public void print() {
         return report;
     }
 
-    //Task + Duration
+    //Task + Duration - zadania w prpjekcie za okres
     public String getReport_4(){
-        String reportName = "Raport 4";
+        String reportName = "Zestawienie zadań w projekcie za okres: ";
+        String fromDate = reportData.getFirst().getFromDate();
+        String toDate = reportData.getFirst().getToDate();
         String n1 = "Nazwa Zadania";
         String n2 = "Czas [godziny]";
         String linia = "-".repeat(57);
         String report = "";
 
-        report += reportName + "\n";
+        report += reportName + fromDate + " - " + toDate + "\n";
+        report += linia + "\n";
+        report += "| %-35s | %-15s |\n".formatted(n1, n2);
+        report += linia + "\n";
+        for(ReportData reportRow : reportData) {
+            report += "| %-35s | %-15s |\n".formatted(reportRow.getTask(), reportRow.getDuration());
+        }
+        report += linia + "\n";
+        return report;
+    }
+
+    //Task + Duration - zadania dla pracownika
+    public String getReport_5(){
+        String reportName = "Zestawienie zadań dla pracownika za okres: ";
+        String fromDate = reportData.getFirst().getFromDate();
+        String toDate = reportData.getFirst().getToDate();
+        String n1 = "Nazwa Zadania";
+        String n2 = "Czas [godziny]";
+        String linia = "-".repeat(57);
+        String report = "";
+
+        report += reportName + fromDate + " - " + toDate + "\n";
         report += linia + "\n";
         report += "| %-35s | %-15s |\n".formatted(n1, n2);
         report += linia + "\n";
