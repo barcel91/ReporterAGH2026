@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.List;
@@ -22,19 +23,8 @@ public class ReportOrchestrator {
                 throw new RuntimeException(e);
             }
 
-            LocalDate fromDate = null;
-            LocalDate toDate = null;
-
-            try {
-                if (reportContext.getDateFrom() != null) {
-                    fromDate = LocalDate.parse(reportContext.getDateFrom());
-                }
-                if (reportContext.getDateTo() != null) {
-                    toDate = LocalDate.parse(reportContext.getDateTo());
-                }
-            } catch (DateTimeParseException e) {
-                System.err.println("Invalid date format.");
-            }
+            LocalDate fromDate = reportContext.getDateFrom();
+            LocalDate toDate = reportContext.getDateTo();
 
             List<Task> filteredListOfTasks = filterTaskByDate(allTasks, fromDate, toDate);
 

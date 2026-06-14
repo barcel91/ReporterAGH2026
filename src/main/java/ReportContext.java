@@ -1,11 +1,13 @@
+import java.time.LocalDate;
+
 public class ReportContext {
     private String reportType;
     private String employeeName;
     private String projectName;
     private Integer limit;
     private String path = "src/main/resources";
-    private String dateFrom;
-    private String dateTo;
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
     private String exportToXslx;
 
     public String getReportType() {
@@ -48,19 +50,19 @@ public class ReportContext {
         this.path = path;
     }
 
-    public String getDateFrom() {
+    public LocalDate getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(String dateFrom) {
+    public void setDateFrom(LocalDate dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    public String getDateTo() {
+    public LocalDate getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(String dateTo) {
+    public void setDateTo(LocalDate dateTo) {
         this.dateTo = dateTo;
     }
 
