@@ -1,10 +1,14 @@
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReportOrchestrator {
     private final XlsxReader xlsxReader = new XlsxReader();
     private final ReportService reportService = new ReportService();
+    private final XlsxGenerator xlsxGenerator = new XlsxGenerator();
 
     public void run(String[] args) {
         CliParser cliParser = new CliParser();
@@ -18,22 +22,74 @@ public class ReportOrchestrator {
                 throw new RuntimeException(e);
             }
 
+            LocalDate fromDate = null;
+            LocalDate toDate = null;
+
+            try {
+                if (reportContext.getDateFrom() != null) {
+                    fromDate = LocalDate.parse(reportContext.getDateFrom());
+                }
+                if (reportContext.getDateTo() != null) {
+                    toDate = LocalDate.parse(reportContext.getDateTo());
+                }
+            } catch (DateTimeParseException e) {
+                System.err.println("Invalid date format.");
+            }
+
+            List<Task> filteredListOfTasks = filterTaskByDate(allTasks, fromDate, toDate);
+
             Collection<ReportData> reportData;
+
             switch (reportContext.getReportType()) {
                 case "-r1":
-                    reportData = reportService.hoursByEmployee(allTasks);
+                    if (reportContext.getLimit() != null) {
+                        reportData = reportService.hoursByEmployee(filteredListOfTasks, reportContext.getLimit());
+                    } else
+                        reportData = reportService.hoursByEmployee(filteredListOfTasks);
+                    if (reportContext.getExportToXslx() != null) {
+                        System.out.println("Export to XSLX");
+                        xlsxGenerator.generate(reportContext.getReportType(), reportData.stream().toList());
+                    }
                     break;
                 case "-r2":
-                    reportData = reportService.hoursByProject(allTasks);
+                    if (reportContext.getLimit() != null) {
+                        reportData = reportService.hoursByProject(filteredListOfTasks, reportContext.getLimit());
+                    } else
+                        reportData = reportService.hoursByProject(filteredListOfTasks);
+                    if (reportContext.getExportToXslx() != null) {
+                        System.out.println("Export to XSLX");
+                        xlsxGenerator.generate(reportContext.getReportType(), reportData.stream().toList());
+                    }
                     break;
                 case "-r3":
-                    reportData = reportService.employeeProjects(allTasks, reportContext.getEmployeeName());
+                    if (reportContext.getLimit() != null) {
+                        reportData = reportService.employeeProjects(filteredListOfTasks, reportContext.getEmployeeName(), reportContext.getLimit());
+                    } else
+                        reportData = reportService.employeeProjects(filteredListOfTasks, reportContext.getEmployeeName());
+                    if (reportContext.getExportToXslx() != null) {
+                        System.out.println("Export to XSLX");
+                        xlsxGenerator.generate(reportContext.getReportType(), reportData.stream().toList());
+                    }
                     break;
                 case "-r4":
-                    reportData = reportService.tasksInProject(allTasks, reportContext.getProjectName());
+                    if (reportContext.getLimit() != null) {
+                        reportData = reportService.tasksInProject(filteredListOfTasks, reportContext.getProjectName(), reportContext.getLimit());
+                    } else
+                        reportData = reportService.tasksInProject(filteredListOfTasks, reportContext.getProjectName());
+                    if (reportContext.getExportToXslx() != null) {
+                        System.out.println("Export to XSLX");
+                        xlsxGenerator.generate(reportContext.getReportType(), reportData.stream().toList());
+                    }
                     break;
                 case "-r5":
-                    reportData = reportService.employeeTasks(allTasks, reportContext.getEmployeeName());
+                    if (reportContext.getLimit() != null) {
+                        reportData = reportService.employeeTasks(filteredListOfTasks, reportContext.getEmployeeName(), reportContext.getLimit());
+                    } else
+                        reportData = reportService.employeeTasks(filteredListOfTasks, reportContext.getEmployeeName());
+                    if (reportContext.getExportToXslx() != null) {
+                        System.out.println("Export to XSLX");
+                        xlsxGenerator.generate(reportContext.getReportType(), reportData.stream().toList());
+                    }
                 default:
                     System.out.println("Invalid report type. Report type "  + reportContext.getReportType() + " does not exist.");
                     return;
@@ -42,13 +98,25 @@ public class ReportOrchestrator {
             ResultPrinter resultPrinter = new ResultPrinter(reportContext.getReportType(), reportData.stream().toList());
             resultPrinter.print();
 
-            if (reportContext.getExportToXslx() != null) {
-                System.out.println("Export to XSLX");
-            }
         } catch (IllegalArgumentException e) {
             System.err.println("Wrong report params: " + e.getMessage());
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
+
+    }
+    private List<Task> filterTaskByDate(Collection<Task> tasks, LocalDate fromDate, LocalDate toDate) {
+        return tasks.stream()
+                .filter( task-> {
+                    LocalDate taskDate = task.getData();
+                    if (taskDate == null)
+                        return false;
+                    if (fromDate != null && task.getData().isBefore(fromDate))
+                        return false;
+                    if (toDate != null && task.getData().isAfter(toDate))
+                        return false;
+                    return true;
+                })
+                .collect(Collectors.toList());
     }
 }
