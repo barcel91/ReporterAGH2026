@@ -11,7 +11,7 @@ public class App {
 
         List<Task> tasks;
         try {
-            tasks = xlsxReader.readData("src/main/resources/2012/01").stream().toList();
+            tasks = xlsxReader.readData("src/main/resources/2012").stream().toList();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
