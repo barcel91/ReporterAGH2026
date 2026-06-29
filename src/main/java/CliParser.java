@@ -80,14 +80,13 @@ public class CliParser {
                     }
                 }
             }
-
             if (arg.equals("-xlsx")) {
-                if (i + 1 < args.length) {
-                    context.setExportToXslx(args[++i]);
-                }
+                context.setExportToXslx("true");
+            }
+            if (context.getReportType() == null) {
+                throw new IllegalArgumentException("Invalid report type: " + arg + ". Supported report types are -r1 to -r5.");
             }
         }
-
         return context;
     }
 }

@@ -20,23 +20,23 @@ public class XlsxGenerator {
 
         switch (reportType) {
 
-            case "r1":
+            case "-r1":
                 createReport1(workbook, reportData);
                 break;
 
-            case "r2":
+            case "-r2":
                 createReport2(workbook, reportData);
                 break;
 
-            case "r3":
+            case "-r3":
                 createReport3(workbook, reportData);
                 break;
 
-            case "r4":
+            case "-r4":
                 createReport4(workbook, reportData);
                 break;
 
-            case "r5":
+            case "-r5":
                 createReport5(workbook, reportData);
                 break;
 
